@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="topnav">
+  <a href="signup.html">Sign-up</a>
+  <a class="active" href="login.html">Login</a>
+</div>
+
+<div class="reg_form">
+     <div id="Login">
+        <form>
+        Username: <input type="text" id="inp7" />
+        <br/>
+        Password: <input type="text" id="inp8" />
+        <br/>
+        <button style="margin-bottom: 20px;" onclick="Login(event)">Submit</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+
+    function Login(e){
+        e.preventDefault();
+
+        let loginData = {
+            username:document.getElementById("inp7").value,
+            password:document.getElementById('inp8').value
+        }
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login",{
+            method:"POST",
+            body: JSON.stringify(loginData),
+
+            headers:{
+                "Content-Type":'application/json'
+            },
+        })
+
+        .then((res)=>{
+            return res.json()
+        })
+        .then((res)=>{
+            console.log("res",res)
+            if(res.error==false){
+                window.location.href = "sample.html"
+            } 
+            else if(res.error == true){
+                window.location.href = "errorTrue.html"
+            }
+        })
+        .catch((err)=>{
+            console.log("err:",err)
+        })
+    }
+
+    function getMyProfile(username,token){
+        fetch(`https://masai-api-mocker.herokuapp.com/user/${username}`,{
+
+            headers:{
+                Authorization:`Bearer ${token}`,
+            },
+        })
+        .then((res)=>{
+            return res.json()
+        })
+
+        .then((res)=>{
+            console.log(res)
+        })
+        .catch((err)=>{
+            console.log("err:",err);
+        })
+    }
+
+    
+
+
+</script>

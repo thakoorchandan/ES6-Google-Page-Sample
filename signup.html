@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="topnav">
+  <a class="active" href="signup.html">Sign-up</a>
+  <a href="login.html">Login</a>
+</div>
+
+<div class="reg_form">
+     <div id="Register">
+        <form>
+      
+        Name: <input type="text" id="inp1" />
+        <br/>
+       
+        Email: <input type="text" id="inp2" />
+        <br/>
+       
+        Password: <input type="text" id="inp3" />
+        <br/>
+        
+        Username: <input type="text" id="inp4" />
+        <br/>
+       
+        Mobile: <input type="number" id="inp5" />
+        <br/>
+      
+        Description: <input type="text" id="inp6" />
+        <br/>
+        <button onclick="Register(event)">Submit</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+
+    function Register(e){
+        e.preventDefault();
+
+        let formdata = {
+            name:document.getElementById("inp1").value,
+            email:document.getElementById("inp2").value,
+            password:document.getElementById("inp3").value,
+            username:document.getElementById("inp4").value,
+            mobile:document.getElementById("inp5").value,
+            description:document.getElementById("inp6").value
+        }
+        // console.log("Formdata:",formdata)
+
+        formdata = JSON.stringify(formdata);
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/register",{
+            method:"POST",
+            body:formdata,
+            headers:{
+                "Content-Type":"application/json",
+            },
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((res)=>{
+            console.log("res:",res);
+        })
+        .catch((err)=>{
+            console.log("err:",err)
+        })
+    }
+
+</script>
